@@ -1,5 +1,5 @@
 import CardList from '@/components/CardList/CardList';
-import styles from './blogPage.module.css';
+import styles from './blog.module.css';
 import Menu from '@/components/Menu/Menu';
 
 const BlogPage = ({ searchParams }) => {
@@ -10,7 +10,7 @@ const BlogPage = ({ searchParams }) => {
     <div className={styles.container}>
       <h1 className={styles.title}>{cat} Blog</h1>
       <div className={styles.content}>
-        <CardList />
+        <CardList pageNo={1} />
         <Menu />
       </div>
     </div>
