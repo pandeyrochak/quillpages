@@ -3,30 +3,32 @@ import Pagination from '@/components/Pagination/Pagination';
 import Card from '@/components/Card/Card';
 import styles from './cardList.module.css';
 
-const getData = async ({ pageNo }) => {
+const getData = async ({ pageNo, cat }) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/posts?page=${pageNo}`, {
-      cache: 'no-store',
-    });
+    const res = await fetch(
+      `http://localhost:3000/api/posts?page=${pageNo}&cat=${cat || ''}`,
+      {
+        cache: 'no-store',
+      },
+    );
     return res.json();
   } catch (error) {
     throw new Error('Error fetching posts', error);
   }
 };
 
-const CardList = async ({ pageNo }) => {
-  console.log('page no:', pageNo);
-  const response = await getData({ pageNo: pageNo });
+const CardList = async ({ pageNo, cat }) => {
+  const response = await getData({ pageNo: pageNo, cat: cat });
   const data = await response.results;
   const count = await response.count;
 
-  console.log('data', data);
+  // console.log('data', data);
   const POST_PER_PAGE = 2;
 
   const hasPrev = POST_PER_PAGE * (pageNo - 1) > 0;
   const hasNext = POST_PER_PAGE * (pageNo - 1) + POST_PER_PAGE < count;
 
-  console.log(count, data);
+  // console.log(count, data);
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Latest Articles</h1>
