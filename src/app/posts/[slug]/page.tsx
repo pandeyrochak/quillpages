@@ -35,7 +35,9 @@ const SinglePage = async ({ params }) => {
             </div>
             <div className={styles.userTextContainer}>
               <span className={styles.username}>{data.user.name}</span>
-              <span className={styles.date}>01.01.2024</span>
+              <span className={styles.date}>
+                {data.createdAt.substring(0, 10)}
+              </span>
             </div>
           </div>
         </div>
@@ -50,7 +52,7 @@ const SinglePage = async ({ params }) => {
             dangerouslySetInnerHTML={{ __html: data.desc }}
           />
           <div className={styles.comment}>
-            <Comments />
+            <Comments postSlug={slug} />
           </div>
         </div>
         <Menu />

@@ -1,9 +1,25 @@
+'use client';
 import React from 'react';
 import styles from './comments.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
-const Comments = () => {
-  const status = 'authenticated';
+import { useSession } from 'next-auth/react';
+import useSWR from 'swr';
+
+const fetcher = async (url) => {
+  const response = await fetch(url);
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message);
+  return data.result;
+};
+
+const Comments = ({ postSlug }) => {
+  const { status } = useSession();
+  const { data, isLoading } = useSWR(
+    `http://localhost:3000/api/comments?postSlug=${postSlug}`,
+    fetcher,
+  );
+  console.log(`data: ${data}`);
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Comments</h2>
@@ -19,26 +35,28 @@ const Comments = () => {
         <Link href={'/login'}>Login to comment</Link>
       )}
       <div className={styles.comments}>
-        <div className={styles.comment}>
-          <div className={styles.user}>
-            <Image
-              alt=""
-              src="/p1.jpeg"
-              width={50}
-              height={50}
-              className={styles.image}
-            />
-            <div className={styles.userInfo}>
-              <span className={styles.username}>John Doe</span>
-              <span className={styles.date}>01.01.2023</span>
-            </div>
-          </div>
-          <p className={styles.desc}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Non sequi
-            vel dolorum libero ab, eum in dolore omnis. Animi, quasi libero
-            aliquid architecto recusandae totam sunt earum aut nesciunt illum!
-          </p>
-        </div>
+        {isLoading
+          ? 'Loading comments'
+          : data.map((item, index) => (
+              <div className={styles.comment} key={index}>
+                <div className={styles.user}>
+                  <Image
+                    alt=""
+                    src={item.user.image}
+                    width={50}
+                    height={50}
+                    className={styles.image}
+                  />
+                  <div className={styles.userInfo}>
+                    <span className={styles.username}>{item.user.name}</span>
+                    <span className={styles.date}>
+                      {item.createdAt.substring(0, 10)}
+                    </span>
+                  </div>
+                </div>
+                <p className={styles.desc}>{item.desc}</p>
+              </div>
+            ))}
       </div>
     </div>
   );
