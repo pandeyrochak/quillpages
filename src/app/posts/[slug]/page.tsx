@@ -27,7 +27,7 @@ const SinglePage = async ({ params }) => {
           <div className={styles.user}>
             <div className={styles.userImageContainer}>
               <Image
-                src={`/${data.img}`}
+                src={`${data.user.image}`}
                 alt=""
                 fill
                 className={styles.iamge}
