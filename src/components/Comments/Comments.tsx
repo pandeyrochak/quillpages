@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { FormEvent } from 'react';
 import styles from './comments.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -15,11 +15,23 @@ const fetcher = async (url) => {
 
 const Comments = ({ postSlug }) => {
   const { status } = useSession();
-  const { data, isLoading } = useSWR(
+  const { data, mutate, isLoading } = useSWR(
     `http://localhost:3000/api/comments?postSlug=${postSlug}`,
     fetcher,
   );
-  console.log(`data: ${data}`);
+  const [description, setDescription] = React.useState('');
+
+  const handleSubmit = async () => {
+    const respon = await fetch('/api/comments', {
+      method: 'POST',
+      body: JSON.stringify({ desc: description, postSlug }),
+    });
+    mutate();
+  };
+  const handleCommentInput = (e: FormEvent<HTMLTextAreaElement>) => {
+    // @ts-expect-error
+    setDescription(e.target.value);
+  };
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Comments</h2>
@@ -28,8 +40,11 @@ const Comments = ({ postSlug }) => {
           <textarea
             placeholder="Share your thoughts "
             className={styles.input}
+            onInput={(e) => handleCommentInput(e)}
           ></textarea>
-          <button className={styles.button}>Comment</button>
+          <button className={styles.button} onClick={handleSubmit}>
+            Comment
+          </button>
         </div>
       ) : (
         <Link href={'/login'}>Login to comment</Link>
