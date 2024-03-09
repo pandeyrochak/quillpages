@@ -16,7 +16,7 @@ const fetcher = async (url) => {
 const Comments = ({ postSlug }) => {
   const { status } = useSession();
   const { data, mutate, isLoading } = useSWR(
-    `${process.env.BASE_URL}/api/comments?postSlug=${postSlug}`,
+    `https://penit.vercel.app/api/comments?postSlug=${postSlug}`,
     fetcher,
   );
   const [description, setDescription] = React.useState('');
