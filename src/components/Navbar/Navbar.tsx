@@ -9,10 +9,12 @@ import { ThemeContext } from 'src/Context/ThemeContext';
 const Navbar = () => {
   return (
     <div className={styles.container}>
-      <div className={styles.logo}>phoenix</div>
+      <div className={styles.logo}>
+        <Link href={'/'}>phoenix</Link>
+      </div>
       <div className={styles.links}>
         <ThemeToggle />
-        <Link href="/" className={styles.link}>
+        {/* <Link href="/" className={styles.link}>
           Homepage
         </Link>
         <Link href="/" className={styles.link}>
@@ -20,7 +22,7 @@ const Navbar = () => {
         </Link>
         <Link href="/" className={styles.link}>
           About
-        </Link>
+        </Link> */}
         <AuthLinks />
       </div>
     </div>

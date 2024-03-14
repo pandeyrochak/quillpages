@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const getData = async () => {
-  const res = await fetch(`https://penit.vercel.app/api/categories`, {
+  const res = await fetch(`${process.env.BASE_URL}/api/categories`, {
     cache: 'no-store',
   });
   if (!res.ok) throw new Error('Failed to fetch categories');

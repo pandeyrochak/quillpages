@@ -6,7 +6,7 @@ import styles from './cardList.module.css';
 const getData = async ({ pageNo, cat }) => {
   try {
     const res = await fetch(
-      `https://penit.vercel.app/api/posts?page=${pageNo}&cat=${cat || ''}`,
+      `${process.env.BASE_URL}/api/posts?page=${pageNo}&cat=${cat || ''}`,
       {
         cache: 'no-store',
       },
