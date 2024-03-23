@@ -6,9 +6,12 @@ import Comments from '@/components/Comments/Comments';
 
 const getData = async ({ slug }) => {
   try {
-    const res = await fetch(`${process.env.BASE_URL}/api/posts/${slug}`, {
-      cache: 'no-store',
-    });
+    const res = await fetch(
+      `${process.env.BASE_URL}/api/posts/${slug}?popular=true`,
+      {
+        cache: 'no-store',
+      },
+    );
     return res.json();
   } catch (error) {
     throw new Error('Error fetching posts', error);

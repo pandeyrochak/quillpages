@@ -31,3 +31,35 @@ export const GET = async (req) => {
     );
   }
 };
+
+// POST method: Allow users to add post
+export const POST = async (req) => {
+  const session = await getAuthSession();
+
+  if (!session) {
+    return new NextResponse(
+      JSON.stringify({
+        message: 'Not authenticated',
+        status: 401,
+      }),
+    );
+  }
+
+  try {
+    const body = await req.json();
+    const post = await prisma.post.create({
+      data: {
+        ...body,
+        userEmail: session.user.email,
+      },
+    });
+    return new NextResponse(JSON.stringify({ result: post, status: 200 }));
+  } catch (error) {
+    return new NextResponse(
+      JSON.stringify({
+        message: 'Something went wrong while fetching posts!',
+        status: 500,
+      }),
+    );
+  }
+};

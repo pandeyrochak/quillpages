@@ -52,7 +52,7 @@ const Comments = ({ postSlug }) => {
       <div className={styles.comments}>
         {isLoading
           ? 'Loading comments'
-          : data.map((item, index) => (
+          : data && data.map((item, index) => (
               <div className={styles.comment} key={index}>
                 <div className={styles.user}>
                   <Image
