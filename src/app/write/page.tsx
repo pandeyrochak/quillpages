@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import styles from './write.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import 'react-quill/dist/quill.bubble.css';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
@@ -60,6 +60,12 @@ const WritePage = () => {
 
     file && upload();
   }, [file, setmedia]);
+  const TextEditor = useMemo(() => {
+    return dynamic(() => import('react-quill'), {
+      ssr: false,
+      loading: () => <p>Loading text editor</p>,
+    });
+  }, []);
   // console.log(data, status);
   if (status === 'loading') {
     return <div>Loading...</div>;
@@ -95,6 +101,7 @@ const WritePage = () => {
 
     console.log(res);
   };
+
   return (
     <div className={styles.container}>
       <input
@@ -139,7 +146,7 @@ const WritePage = () => {
             </button>
           </div>
         )}
-        <ReactQuill
+        <TextEditor
           className={styles.textArea}
           theme="bubble"
           value={value}
