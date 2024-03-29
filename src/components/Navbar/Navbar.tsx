@@ -5,12 +5,21 @@ import Link from 'next/link';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
 import AuthLinks from '../AuthLinks/AuthLinks';
 import { ThemeContext } from 'src/Context/ThemeContext';
+import quillpagesLogo from 'public/quillpages-logo.png';
 
 const Navbar = () => {
   return (
     <div className={styles.container}>
       <div className={styles.logo}>
-        <Link href={'/'}>phoenix</Link>
+        <Link href={'/'}>
+          <Image
+            src={quillpagesLogo}
+            width={64}
+            height={64}
+            alt="logo"
+            className="logo-image"
+          />
+        </Link>
       </div>
       <div className={styles.links}>
         <ThemeToggle />

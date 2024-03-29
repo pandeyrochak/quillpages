@@ -5,6 +5,7 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import ThemeProvider from 'src/Provider/ThemeProvider';
 import AuthProvider from 'src/Provider/AuthProvider';
+import Head from 'next/head';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,13 +17,20 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <Head>
+        <link rel="icon" href="./favicon.ico" />
+      </Head>
       <body className={inter.className}>
         <AuthProvider>
           <ThemeContextProvider>
             <ThemeProvider>
-              <div className="container">
+              <div className="container navbar">
                 <div className="wrapper">
                   <Navbar />
+                </div>
+              </div>
+              <div className="container">
+                <div className="wrapper">
                   {children}
                   <Footer />
                 </div>

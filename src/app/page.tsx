@@ -9,11 +9,11 @@ export default function Home({ searchParams }) {
 
   return (
     <div className={styles.container}>
-      <Featured />
+      {/* <Featured /> */}
       <CategoryList />
       <div className={styles.content}>
         <CardList pageNo={pageNo} cat={''} />
-        <Menu />
+        {/* <Menu /> */}
       </div>
     </div>
   );

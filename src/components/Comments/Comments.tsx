@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
 
 const fetcher = async (url) => {
+  console.log('🚀 ~ fetcher ~ url:', url);
   const response = await fetch(url);
   const data = await response.json();
   if (!response.ok) throw new Error(data.message);
@@ -14,14 +15,17 @@ const fetcher = async (url) => {
 };
 
 const Comments = ({ postSlug }) => {
+  console.log('🚀 ~ Comments ~ postSlug:', postSlug);
+
   const { status } = useSession();
-  const { data, mutate, isLoading } = useSWR(
-    `${process.env.BASE_URL}/api/comments?postSlug=${postSlug}`,
-    fetcher,
-  );
+  const apiurl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/comments?postSlug=${postSlug}`;
+
+  console.log('🚀 ~ Comments ~ apiurl:', process.env.NEXT_PUBLIC_BASE_URL);
+  const { data, mutate, isLoading } = useSWR(apiurl, fetcher);
   const [description, setDescription] = React.useState('');
 
   const handleSubmit = async () => {
+    setDescription('');
     const respon = await fetch('/api/comments', {
       method: 'POST',
       body: JSON.stringify({ desc: description, postSlug }),
@@ -41,6 +45,7 @@ const Comments = ({ postSlug }) => {
             placeholder="Share your thoughts "
             className={styles.input}
             onInput={(e) => handleCommentInput(e)}
+            value={description}
           ></textarea>
           <button className={styles.button} onClick={handleSubmit}>
             Comment
@@ -52,7 +57,8 @@ const Comments = ({ postSlug }) => {
       <div className={styles.comments}>
         {isLoading
           ? 'Loading comments'
-          : data && data.map((item, index) => (
+          : data &&
+            data.map((item, index) => (
               <div className={styles.comment} key={index}>
                 <div className={styles.user}>
                   <Image

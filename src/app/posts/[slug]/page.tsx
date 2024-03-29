@@ -7,7 +7,7 @@ import Comments from '@/components/Comments/Comments';
 const getData = async ({ slug }) => {
   try {
     const res = await fetch(
-      `${process.env.BASE_URL}/api/posts/${slug}?popular=true`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${slug}?popular=true`,
       {
         cache: 'no-store',
       },
@@ -58,7 +58,7 @@ const SinglePage = async ({ params }) => {
             <Comments postSlug={slug} />
           </div>
         </div>
-        <Menu />
+        {/* <Menu /> */}
       </div>
     </div>
   );
